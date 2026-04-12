@@ -31,7 +31,9 @@ body{
 }
 
 /* aplicar a CUALQUIER elemento con id, no sólo section */
-[id]{
+section[id],
+header[id],
+div[id].proposals-header{
   scroll-margin-top: var(--anchor-offset);
 }
 
