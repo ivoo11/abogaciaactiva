@@ -118,14 +118,14 @@ div[id].proposals-header{
 .nav-link:hover{ color: var(--brand-dark) !important; }
 .nav-link.active{ color: var(--brand) !important; }
 
-.btn-primary{
+.btn.btn-primary{
   background: var(--brand);
   border-color: var(--brand);
 }
-.btn-primary:hover{
-  filter: brightness(.95);
-  background: var(--brand);
-  border-color: var(--brand);
+
+.btn.btn-primary:hover{
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
 }
 
 .badge-soft{
