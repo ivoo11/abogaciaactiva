@@ -171,7 +171,7 @@
       if (!target) return;
 
       const navHeight = getCollapsedNavHeight();
-      const extraGap = 12;
+      const extraGap = 0;
       const y =
         target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
 

@@ -26,7 +26,7 @@ body{
 
 :root{
   --nav-height: 86px;
-  --anchor-offset: calc(var(--nav-height) + 12px);
+  --anchor-offset: calc(var(--nav-height) + 0px);
   --proposals-subnav-offset: calc(var(--nav-height) + 6px);
 }
 
