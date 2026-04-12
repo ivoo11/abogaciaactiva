@@ -3,18 +3,6 @@
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Cierra menú mobile al clickear un link
-  const nav = document.getElementById("navLinks");
-  const navLinks = document.querySelectorAll(".navbar .nav-link");
-  navLinks.forEach((a) => {
-    a.addEventListener("click", () => {
-      if (!nav) return;
-      if (nav.classList.contains("show")) {
-        bootstrap.Collapse.getOrCreateInstance(nav).hide();
-      }
-    });
-  });
-
   // Contacto
   const form = document.getElementById("contactForm");
   const ok = document.getElementById("contactOk");
@@ -41,36 +29,34 @@
   }
 
   // Modal propuestas
-(() => {
   const proposalModal = document.getElementById("proposalModal");
-  if (!proposalModal) return;
+  if (proposalModal) {
+    const modalTitle = document.getElementById("proposalModalLabel");
+    const modalSummary = document.getElementById("proposalModalSummary");
+    const modalCopy = document.getElementById("proposalModalCopy");
 
-  const modalTitle = document.getElementById("proposalModalLabel");
-  const modalSummary = document.getElementById("proposalModalSummary");
-  const modalCopy = document.getElementById("proposalModalCopy");
+    proposalModal.addEventListener("show.bs.modal", (event) => {
+      const trigger = event.relatedTarget;
+      if (!trigger) return;
 
-  proposalModal.addEventListener("show.bs.modal", (event) => {
-    const trigger = event.relatedTarget;
-    if (!trigger) return;
+      const title = trigger.getAttribute("data-title") || "";
+      const summary = trigger.getAttribute("data-summary") || "";
+      const copy = trigger.getAttribute("data-copy") || "";
 
-    const title = trigger.getAttribute("data-title") || "";
-    const summary = trigger.getAttribute("data-summary") || "";
-    const copy = trigger.getAttribute("data-copy") || "";
-
-    modalTitle.textContent = title;
-    modalSummary.textContent = summary;
-    modalCopy.textContent = copy;
-  });
-
-  document.querySelectorAll(".proposal-card--clickable").forEach((card) => {
-    card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        card.click();
-      }
+      modalTitle.textContent = title;
+      modalSummary.textContent = summary;
+      modalCopy.textContent = copy;
     });
-  });
-})();
+
+    document.querySelectorAll(".proposal-card--clickable").forEach((card) => {
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+  }
 
   // Chips propuestas
   const chips = document.querySelectorAll(".proposal-chip");
@@ -80,8 +66,8 @@
 
   if (chips.length && sections.length && mainNav && chipsWrap) {
     const getOffset = () => {
-      const navHeight = mainNav.offsetHeight || 0;
-      const chipsHeight = chipsWrap.offsetHeight || 0;
+      const navHeight = Math.ceil(mainNav.getBoundingClientRect().height) || 0;
+      const chipsHeight = Math.ceil(chipsWrap.getBoundingClientRect().height) || 0;
       return navHeight + chipsHeight + 12;
     };
 
@@ -110,6 +96,7 @@
           behavior: "smooth",
         });
 
+        history.replaceState(null, "", href);
         setActiveChip(href.replace("#", ""));
       });
     });
@@ -136,91 +123,107 @@
       setActiveChip(sections[0].id);
     }
   }
-})();
 
-document.addEventListener("DOMContentLoaded", () => {
-  const root = document.documentElement;
-  const body = document.body;
-  const nav = document.getElementById("mainNav");
-  const navCollapse = document.getElementById("navLinks");
-  const navLinks = document.querySelectorAll('#mainNav a[href^="#"]');
+  // Navbar + anchors + scrollspy
+  document.addEventListener("DOMContentLoaded", () => {
+    const root = document.documentElement;
+    const body = document.body;
+    const nav = document.getElementById("mainNav");
+    const navCollapse = document.getElementById("navLinks");
+    const anchorLinks = document.querySelectorAll('#mainNav a[href^="#"]');
 
-  function getNavHeight() {
-    return nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
-  }
+    if (!nav) return;
 
-  function updateNavMetrics() {
-    const navHeight = getNavHeight();
+    function getCollapsedNavHeight() {
+      const wasOpen = navCollapse && navCollapse.classList.contains("show");
 
-    root.style.setProperty("--nav-height", `${navHeight}px`);
-    root.style.setProperty("--anchor-offset", `${navHeight + 12}px`);
-    root.style.setProperty("--proposals-subnav-offset", `${navHeight + 6}px`);
+      if (!navCollapse || !wasOpen || window.innerWidth >= 992) {
+        return Math.ceil(nav.getBoundingClientRect().height);
+      }
 
-    body.setAttribute("data-bs-offset", String(navHeight + 16));
+      navCollapse.classList.remove("show");
+      const height = Math.ceil(nav.getBoundingClientRect().height);
+      navCollapse.classList.add("show");
 
-    const spyInstance = bootstrap.ScrollSpy.getInstance(body);
-    if (spyInstance) {
-      spyInstance.refresh();
-    } else {
+      return height;
+    }
+
+    function updateNavMetrics() {
+      const navHeight = getCollapsedNavHeight();
+
+      root.style.setProperty("--nav-height", `${navHeight}px`);
+      root.style.setProperty("--anchor-offset", `${navHeight + 12}px`);
+      root.style.setProperty("--proposals-subnav-offset", `${navHeight + 6}px`);
+
+      const spyInstance = bootstrap.ScrollSpy.getInstance(body);
+      if (spyInstance) {
+        spyInstance.dispose();
+      }
+
       new bootstrap.ScrollSpy(body, {
         target: "#mainNav",
-        offset: navHeight + 16
+        offset: navHeight + 16,
       });
     }
-  }
 
-  function closeMobileMenu() {
-    if (!navCollapse) return;
-
-    const collapseInstance =
-      bootstrap.Collapse.getInstance(navCollapse) ||
-      new bootstrap.Collapse(navCollapse, { toggle: false });
-
-    if (window.innerWidth < 992 && navCollapse.classList.contains("show")) {
-      collapseInstance.hide();
-    }
-  }
-
-  function smoothScrollToHash(hash) {
-    const target = document.querySelector(hash);
-    if (!target) return;
-
-    const navHeight = getNavHeight();
-    const extraGap = 12;
-    const y = target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
-
-    window.scrollTo({
-      top: y,
-      behavior: "smooth"
-    });
-  }
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const hash = link.getAttribute("href");
-      if (!hash || !hash.startsWith("#")) return;
-
+    function scrollToHash(hash) {
       const target = document.querySelector(hash);
       if (!target) return;
 
-      e.preventDefault();
+      const navHeight = getCollapsedNavHeight();
+      const extraGap = 12;
+      const y =
+        target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
 
-      closeMobileMenu();
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
 
-      setTimeout(() => {
-        smoothScrollToHash(hash);
-        history.replaceState(null, "", hash);
-      }, window.innerWidth < 992 ? 250 : 0);
+      history.replaceState(null, "", hash);
+    }
+
+    anchorLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const hash = link.getAttribute("href");
+        if (!hash || !hash.startsWith("#")) return;
+
+        const target = document.querySelector(hash);
+        if (!target) return;
+
+        e.preventDefault();
+
+        const isMobile = window.innerWidth < 992;
+        const isMenuOpen =
+          navCollapse && navCollapse.classList.contains("show");
+
+        if (isMobile && isMenuOpen) {
+          navCollapse.addEventListener(
+            "hidden.bs.collapse",
+            () => {
+              updateNavMetrics();
+              requestAnimationFrame(() => {
+                scrollToHash(hash);
+              });
+            },
+            { once: true }
+          );
+
+          bootstrap.Collapse.getOrCreateInstance(navCollapse).hide();
+        } else {
+          scrollToHash(hash);
+        }
+      });
     });
+
+    window.addEventListener("load", updateNavMetrics);
+    window.addEventListener("resize", updateNavMetrics);
+
+    if (navCollapse) {
+      navCollapse.addEventListener("shown.bs.collapse", updateNavMetrics);
+      navCollapse.addEventListener("hidden.bs.collapse", updateNavMetrics);
+    }
+
+    updateNavMetrics();
   });
-
-  window.addEventListener("load", updateNavMetrics);
-  window.addEventListener("resize", updateNavMetrics);
-
-  if (navCollapse) {
-    navCollapse.addEventListener("shown.bs.collapse", updateNavMetrics);
-    navCollapse.addEventListener("hidden.bs.collapse", updateNavMetrics);
-  }
-
-  updateNavMetrics();
-});
+})();
