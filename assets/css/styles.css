@@ -343,8 +343,7 @@ div[id].proposals-header{
   .hero-v2-carousel,
   .hero-v2-carousel .carousel-inner,
   .hero-v2-carousel .carousel-item{
-    height: clamp(520px, 68svh, 660px);
-    min-height: 78svh;
+    height: clamp(620px, 78vh, 760px);
   }
 
   .hero-v2-overlay{
@@ -355,33 +354,6 @@ div[id].proposals-header{
         rgba(0,0,0,.55) 58%,
         rgba(0,0,0,.72) 100%
       );
-  }
-
-  .hero-v2-content{
-    max-width: 100%;
-    padding-top: 110px;
-    padding-bottom: 90px;
-  }
-
-  .hero-v2-title{
-    font-size: clamp(2.6rem, 8vw, 4.1rem);
-    line-height: .92;
-  }
-
-  .hero-v2-subtitle{
-    max-width: 28ch;
-  }
-
-  .hero-v2-control{
-    width: 12%;
-  }
-}
-
-@media (max-width: 767.98px){
-  .hero-v2-carousel,
-  .hero-v2-carousel .carousel-inner,
-  .hero-v2-carousel .carousel-item{
-    height: clamp(620px, 78vh, 760px);
   }
 
   .hero-v2-content{
@@ -426,7 +398,7 @@ div[id].proposals-header{
   }
 
   .hero-v2-control{
-    width: 15%;
+    display: none !important;
   }
 
   .hero-v2-indicators{
@@ -1122,23 +1094,47 @@ div[id].proposals-header{
 
 @media (max-width: 991.98px){
   .amantia-dark{
-    padding: 60px 0;
-  }
-
-  .amantia-photo{
-    min-height: 400px;
-  }
-}
-
-@media (max-width: 767.98px){
-  .amantia-dark{
     min-height: auto;
     padding: 52px 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .amantia-dark .container{
+    width: 100%;
+  }
+
+  .amantia-dark .row{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .amantia-dark .col-lg-5,
+  .amantia-dark .col-lg-7{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .amantia-photo{
     min-height: 300px;
+    width: 100%;
+    max-width: 340px;
     border-radius: 22px;
+    margin: 0 auto 1.5rem;
+    background-position: center top;
+  }
+
+  .amantia-dark .section-kicker,
+  .amantia-dark .section-title,
+  .amantia-dark p,
+  .amantia-dark .lead{
+    text-align: center;
+  }
+
+  .amantia-dark .section-title{
+    margin-bottom: 1rem;
   }
 }
 
