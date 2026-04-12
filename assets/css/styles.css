@@ -24,8 +24,15 @@ body{
   color: var(--text);
 }
 
+:root{
+  --nav-height: 86px;
+  --anchor-offset: calc(var(--nav-height) + 12px);
+  --proposals-subnav-offset: calc(var(--nav-height) + 6px);
+}
+
+/* aplicar a CUALQUIER elemento con id, no sólo section */
 [id]{
-  scroll-margin-top: 70px;
+  scroll-margin-top: var(--anchor-offset);
 }
 
 .section-pad{
@@ -567,10 +574,6 @@ body{
 /* =========================
    PROPUESTAS · CARDS
 ========================= */
-.proposals-header{
-  width: 100%;
-  margin-bottom: 2rem;
-}
 
 .axis-banner{
   width: 100%;
@@ -596,6 +599,10 @@ body{
   font-size: clamp(1rem, 1.2vw, 1.18rem);
   line-height: 1.5;
   font-weight: 600;
+}
+
+.proposals-header{
+  scroll-margin-top: calc(var(--anchor-offset) + 8px);
 }
 
 .proposal-card{
@@ -1011,11 +1018,6 @@ body{
   box-shadow: 0 14px 28px rgba(38, 71, 34, 0.16);
 }
 
-/* offset correcto al navegar */
-.proposals-header{
-  scroll-margin-top: 180px;
-}
-
 @media (max-width: 767.98px){
   .proposals-subnav-wrap{
     top: 68px;
@@ -1029,9 +1031,6 @@ body{
     font-size: .8rem;
   }
 
-  .proposals-header{
-    scroll-margin-top: 150px;
-  }
 }
 
 @media (max-width: 991.98px){

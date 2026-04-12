@@ -137,3 +137,90 @@
     }
   }
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const root = document.documentElement;
+  const body = document.body;
+  const nav = document.getElementById("mainNav");
+  const navCollapse = document.getElementById("navLinks");
+  const navLinks = document.querySelectorAll('#mainNav a[href^="#"]');
+
+  function getNavHeight() {
+    return nav ? Math.ceil(nav.getBoundingClientRect().height) : 0;
+  }
+
+  function updateNavMetrics() {
+    const navHeight = getNavHeight();
+
+    root.style.setProperty("--nav-height", `${navHeight}px`);
+    root.style.setProperty("--anchor-offset", `${navHeight + 12}px`);
+    root.style.setProperty("--proposals-subnav-offset", `${navHeight + 6}px`);
+
+    body.setAttribute("data-bs-offset", String(navHeight + 16));
+
+    const spyInstance = bootstrap.ScrollSpy.getInstance(body);
+    if (spyInstance) {
+      spyInstance.refresh();
+    } else {
+      new bootstrap.ScrollSpy(body, {
+        target: "#mainNav",
+        offset: navHeight + 16
+      });
+    }
+  }
+
+  function closeMobileMenu() {
+    if (!navCollapse) return;
+
+    const collapseInstance =
+      bootstrap.Collapse.getInstance(navCollapse) ||
+      new bootstrap.Collapse(navCollapse, { toggle: false });
+
+    if (window.innerWidth < 992 && navCollapse.classList.contains("show")) {
+      collapseInstance.hide();
+    }
+  }
+
+  function smoothScrollToHash(hash) {
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    const navHeight = getNavHeight();
+    const extraGap = 12;
+    const y = target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth"
+    });
+  }
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const hash = link.getAttribute("href");
+      if (!hash || !hash.startsWith("#")) return;
+
+      const target = document.querySelector(hash);
+      if (!target) return;
+
+      e.preventDefault();
+
+      closeMobileMenu();
+
+      setTimeout(() => {
+        smoothScrollToHash(hash);
+        history.replaceState(null, "", hash);
+      }, window.innerWidth < 992 ? 250 : 0);
+    });
+  });
+
+  window.addEventListener("load", updateNavMetrics);
+  window.addEventListener("resize", updateNavMetrics);
+
+  if (navCollapse) {
+    navCollapse.addEventListener("shown.bs.collapse", updateNavMetrics);
+    navCollapse.addEventListener("hidden.bs.collapse", updateNavMetrics);
+  }
+
+  updateNavMetrics();
+});
