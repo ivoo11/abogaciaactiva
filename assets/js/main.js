@@ -41,56 +41,36 @@
   }
 
   // Modal propuestas
+(() => {
   const proposalModal = document.getElementById("proposalModal");
-  if (proposalModal) {
-    const modalNumber = document.getElementById("proposalModalNumber");
-    const modalTitle = document.getElementById("proposalModalLabel");
-    const modalSummary = document.getElementById("proposalModalSummary");
-    const modalPoints = document.getElementById("proposalModalPoints");
-    const modalCopy = document.getElementById("proposalModalCopy");
+  if (!proposalModal) return;
 
-    proposalModal.addEventListener("show.bs.modal", (event) => {
-      const trigger = event.relatedTarget;
-      if (!trigger) return;
+  const modalTitle = document.getElementById("proposalModalLabel");
+  const modalSummary = document.getElementById("proposalModalSummary");
+  const modalCopy = document.getElementById("proposalModalCopy");
 
-      const number = trigger.getAttribute("data-number") || "";
-      const title = trigger.getAttribute("data-title") || "";
-      const summary = trigger.getAttribute("data-summary") || "";
-      const copy = trigger.getAttribute("data-copy") || "";
-      const pointsRaw = trigger.getAttribute("data-points") || "[]";
+  proposalModal.addEventListener("show.bs.modal", (event) => {
+    const trigger = event.relatedTarget;
+    if (!trigger) return;
 
-      let points = [];
-      try {
-        points = JSON.parse(pointsRaw);
-        if (!Array.isArray(points)) points = [];
-      } catch {
-        points = [];
-      }
+    const title = trigger.getAttribute("data-title") || "";
+    const summary = trigger.getAttribute("data-summary") || "";
+    const copy = trigger.getAttribute("data-copy") || "";
 
-      if (modalNumber) modalNumber.textContent = number;
-      if (modalTitle) modalTitle.textContent = title;
-      if (modalSummary) modalSummary.textContent = summary;
-      if (modalCopy) modalCopy.textContent = copy;
+    modalTitle.textContent = title;
+    modalSummary.textContent = summary;
+    modalCopy.textContent = copy;
+  });
 
-      if (modalPoints) {
-        modalPoints.innerHTML = "";
-        points.forEach((point) => {
-          const li = document.createElement("li");
-          li.textContent = point;
-          modalPoints.appendChild(li);
-        });
+  document.querySelectorAll(".proposal-card--clickable").forEach((card) => {
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        card.click();
       }
     });
-
-    document.querySelectorAll(".proposal-card--clickable").forEach((card) => {
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          card.click();
-        }
-      });
-    });
-  }
+  });
+})();
 
   // Chips propuestas
   const chips = document.querySelectorAll(".proposal-chip");

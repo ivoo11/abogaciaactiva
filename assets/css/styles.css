@@ -25,12 +25,23 @@ body{
 }
 
 [id]{
-  scroll-margin-top: 110px;
+  scroll-margin-top: 70px;
 }
 
-.section-pad{ padding: 80px 0; }
+.section-pad{
+  padding: 72px 0;
+}
+
 @media (max-width: 991.98px){
-  .section-pad{ padding: 64px 0; }
+  .section-pad{
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 767.98px){
+  .section-pad{
+    padding: 52px 0;
+  }
 }
 
 .section-alt{ background: var(--surface); }
@@ -145,7 +156,8 @@ body{
 .hero-v2-carousel,
 .hero-v2-carousel .carousel-inner,
 .hero-v2-carousel .carousel-item{
-  height: clamp(620px, 78vh, 860px);
+  height: clamp(560px, 72dvh, 760px);
+  min-height: 88svh;
 }
 
 .hero-v2-carousel .carousel-item{
@@ -297,7 +309,7 @@ body{
 /* Indicators */
 .hero-v2-indicators{
   z-index: 4;
-  margin-bottom: 28px;
+  margin-bottom: 48px;
   gap: 8px;
 }
 
@@ -318,11 +330,12 @@ body{
 }
 
 /* Responsive */
-@media (max-width: 991.98px){
+@media (max-width: 767.98px){
   .hero-v2-carousel,
   .hero-v2-carousel .carousel-inner,
   .hero-v2-carousel .carousel-item{
-    height: clamp(560px, 74vh, 760px);
+    height: clamp(520px, 68svh, 660px);
+    min-height: 78svh;
   }
 
   .hero-v2-overlay{
@@ -408,17 +421,26 @@ body{
   }
 
   .hero-v2-indicators{
-    margin-bottom: 20px;
+    margin-bottom: 32px;
   }
-}
 
-@media (prefers-reduced-motion: reduce){
-  .hero-v2-carousel .carousel-item{
+  .hero-v2-img-amantia{
+    object-position: 78% center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-v2-carousel .carousel-item{
     transition: none !important;
+    }
   }
 }
 
-/* NOSOTROS */
+@media (max-width: 991.98px){
+  .hero-v2-img-amantia{
+    object-position: 78% center;
+  }
+}
+
 /* =========================
    NOSOTROS V2
 ========================= */
@@ -522,6 +544,27 @@ body{
 }
 
 /* =========================
+   FIX ALTURA · NOSOTROS
+========================= */
+
+#nosotros{
+  min-height: calc(100vh - 86px);
+  display: flex;
+  align-items: center;
+}
+
+#nosotros .container{
+  width: 100%;
+}
+
+@media (max-width: 767.98px){
+  #nosotros{
+    min-height: auto;
+    display: block;
+  }
+}
+
+/* =========================
    PROPUESTAS · CARDS
 ========================= */
 .proposals-header{
@@ -535,11 +578,11 @@ body{
   background: var(--brand);
   color: #fff;
   border-radius: 0;
-  padding: 1.15rem 1.35rem 1.2rem;
-  font-size: clamp(1.8rem, 3vw, 1.4rem);
-  line-height: .45;
+  padding: 1.1rem 1.2rem;
+  font-size: clamp(1.25rem, 2.2vw, 2.2rem);
+  line-height: .95;
   font-weight: 900;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.045em;
   text-transform: uppercase;
   box-shadow: 0 10px 24px rgba(38, 71, 34, 0.12);
   text-wrap: balance;
@@ -731,23 +774,12 @@ body{
     padding-right: 5rem;
   }
 
-  .proposal-modal-meta{
-    margin-bottom: 0;
-  }
-
   .proposal-modal-summary{
     max-width: 32ch;
     justify-self: end;
     align-self: end;
     margin-bottom: .35rem;
   }
-}
-
-.proposal-modal-meta{
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .proposal-modal-title-wrap{
@@ -782,44 +814,6 @@ body{
   font-size: 1.15rem;
   line-height: 1.5;
   font-weight: 600;
-}
-
-/* =========================
-   GRID CONTENIDO
-========================= */
-
-.proposal-modal-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  align-items: start;
-}
-
-@media (min-width: 1200px) {
-  .proposal-modal-grid{
-    grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
-    gap: 1.25rem;
-  }
-}
-
-.proposal-modal-panel{
-  border-radius: 24px;
-  padding: 1.35rem;
-  background: #f8f9f8;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-}
-
-.proposal-modal-panel--soft{
-  background: #f8f9f8;
-}
-
-.proposal-panel-kicker{
-  margin-bottom: 1rem;
-  color: var(--brand);
-  font-size: .8rem;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
 }
 
 /* =========================
@@ -878,9 +872,6 @@ body{
 }
 
 @media (max-width: 991.98px){
-  .proposal-modal-grid{
-    grid-template-columns: 1fr;
-  }
 
   #proposalModalLabel{
     max-width: none;
@@ -901,18 +892,6 @@ body{
     margin-bottom: 1.35rem;
   }
 
-  .proposal-modal-meta{
-    gap: .8rem;
-    margin-bottom: .9rem;
-  }
-
-  .proposal-modal-number{
-    width: 50px;
-    height: 50px;
-    border-radius: 14px;
-    font-size: 1rem;
-  }
-
   #proposalModalLabel{
     font-size: 2.1rem;
     line-height: .9;
@@ -921,11 +900,6 @@ body{
   .proposal-modal-summary{
     font-size: 1rem;
     line-height: 1.45;
-  }
-
-  .proposal-modal-panel{
-    padding: 1rem;
-    border-radius: 18px;
   }
 
   .proposal-modal-copy-modern{
@@ -1060,9 +1034,11 @@ body{
   }
 }
 
-/* =========================
-   AMANTÍA
-========================= */
+@media (max-width: 991.98px){
+  .proposals-subnav-wrap{
+    display: none;
+  }
+}
 
 /* =========================
    AMANTÍA · DARK SECTION
@@ -1073,6 +1049,15 @@ body{
   background: var(--brand);
   color: #fff;
   overflow: hidden;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 72px 0;
+}
+
+.amantia-dark .row{
+  width: 100%;
+  align-items: center;
 }
 
 .amantia-dark::before{
@@ -1109,10 +1094,11 @@ body{
 
 .amantia-photo{
   position: relative;
-  min-height: 520px;
+  min-height: clamp(360px, 42vw, 500px);
   height: 100%;
   border-radius: 28px;
   overflow: hidden;
+  background-image: url("../img/amantia.jpg");
   background-size: cover;
   background-position: center;
   box-shadow: 0 24px 60px rgba(0,0,0,.28);
@@ -1125,7 +1111,6 @@ body{
   background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.18) 100%);
 }
 
-/* Opcional: nombre o firma */
 .amantia-dark .amantia-signature{
   margin-top: 1.6rem;
   color: rgba(255,255,255,.92);
@@ -1135,27 +1120,25 @@ body{
 }
 
 @media (max-width: 991.98px){
+  .amantia-dark{
+    padding: 60px 0;
+  }
+
   .amantia-photo{
-    min-height: 420px;
+    min-height: 400px;
   }
 }
 
 @media (max-width: 767.98px){
   .amantia-dark{
-    padding-top: 72px;
-    padding-bottom: 72px;
+    min-height: auto;
+    padding: 52px 0;
   }
 
   .amantia-photo{
-    min-height: 360px;
+    min-height: 300px;
     border-radius: 22px;
   }
-}
-
-.amantia-photo{
-  background-image: url("../img/amantia.jpg");
-  background-size: cover;
-  background-position: center;
 }
 
 /* =========================
@@ -1448,10 +1431,16 @@ body{
 
 .contact-bg{
   position: relative;
-  padding: 120px 0;
+  padding: 72px 0 64px;
   background: url("../img/hero-3.jpg") center/cover no-repeat;
   color: #fff;
   overflow: hidden;
+}
+
+@media (max-width: 767.98px){
+  .contact-bg{
+    padding: 56px 0 48px;
+  }
 }
 
 /* overlay oscuro */
@@ -1492,7 +1481,7 @@ body{
 .contact-subtitle{
   color: rgba(255,255,255,.8);
   font-size: 1.1rem;
-  max-width: 520px;
+  max-width: 820px;
   margin: 0 auto;
   line-height: 1.6;
 }
@@ -1502,7 +1491,7 @@ body{
 .contact-form{
   background: rgba(255,255,255,.96);
   border-radius: 26px;
-  padding: 40px;
+  padding: 32px;
   box-shadow: 0 30px 80px rgba(0,0,0,.35);
 }
 
@@ -1556,7 +1545,8 @@ body{
 
 .contact-actions{
   margin-top: 25px;
-  text-align: right;
+  display: flex;
+  justify-content: center;
 }
 
 .contact-btn{
@@ -1586,7 +1576,7 @@ body{
 }
 
 .contact-form{
-  padding: 25px;
+  padding: 22px;
 }
 
 .contact-grid{
@@ -1594,7 +1584,8 @@ body{
 }
 
 .contact-actions{
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .contact-btn{
