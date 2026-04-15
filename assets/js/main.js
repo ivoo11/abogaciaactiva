@@ -227,3 +227,42 @@
     updateNavMetrics();
   });
 })();
+
+// CONTADOR
+
+const countdown = document.getElementById("electionCountdown");
+const inlineDays = document.getElementById("countdownDaysInline");
+
+if (countdown) {
+  const targetDate = countdown.getAttribute("data-election-date");
+
+  const daysEl = countdown.querySelector('[data-unit="days"]');
+  const hoursEl = countdown.querySelector('[data-unit="hours"]');
+  const minutesEl = countdown.querySelector('[data-unit="minutes"]');
+  const secondsEl = countdown.querySelector('[data-unit="seconds"]');
+
+  const pad = (n) => String(n).padStart(2, "0");
+
+  const update = () => {
+    const now = new Date().getTime();
+    const target = new Date(targetDate).getTime();
+    const diff = target - now;
+
+    if (diff <= 0) return;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    if (daysEl) daysEl.textContent = pad(days);
+    if (hoursEl) hoursEl.textContent = pad(hours);
+    if (minutesEl) minutesEl.textContent = pad(minutes);
+    if (secondsEl) secondsEl.textContent = pad(seconds);
+
+    if (inlineDays) inlineDays.textContent = days;
+  };
+
+  update();
+  setInterval(update, 1000);
+}

@@ -403,6 +403,95 @@ div[id].proposals-header{
 }
 
 /* =========================
+   CONTADOR
+========================= */
+
+.election-countdown-hero{
+  padding: 80px 0 60px;
+  background: fff;
+  text-align: center;
+}
+
+.election-countdown-inner{
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.election-countdown-kicker{
+  margin-bottom: 1rem;
+  color: var(--brand);
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.election-countdown-title{
+  margin: 0 0 2rem;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: .95;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+  color: #182033;
+}
+
+#countdownDaysInline{
+  color: var(--brand);
+}
+
+.election-countdown-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 2rem;
+}
+
+.countdown-item{
+  padding: 1.2rem .8rem;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(15,23,42,.08);
+  box-shadow: 0 10px 24px rgba(15,23,42,.06);
+}
+
+.countdown-number{
+  display: block;
+  font-size: clamp(5rem, 6vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--brand);
+}
+
+.countdown-label{
+  display: block;
+  margin-top: .4rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(15,23,42,.6);
+}
+
+.election-countdown-actions{
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 767.98px){
+  .election-countdown-hero{
+    padding: 60px 0 40px;
+  }
+
+  .election-countdown-title{
+    font-size: 2rem;
+  }
+
+  .election-countdown-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================
    NOSOTROS V2
 ========================= */
 
